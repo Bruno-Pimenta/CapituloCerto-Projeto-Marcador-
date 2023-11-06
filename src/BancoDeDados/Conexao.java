@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class Conexao {
     private static Connection connection;
-    private static final String URL = "jdbc:mysql://localhost:3306/marcador_de_livros";
+    private static final String URL = "jdbc:mysql://localhost:3306/capitulo_certo?useUnicode=true&characterEncoding=UTF-8";
     private static final String USUARIO = "root";
     private static final String SENHA = "";
     

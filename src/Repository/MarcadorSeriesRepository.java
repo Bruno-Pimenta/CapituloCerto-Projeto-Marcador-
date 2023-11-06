@@ -40,7 +40,7 @@ public class MarcadorSeriesRepository {
             st.setInt(2, marcador.getNumeroDeEpisodios());
             st.setInt(3, marcador.getEpisodioAtual());
             st.setString(4, marcador.getStatus());
-            st.setInt(5, marcador.getNota());
+            st.setFloat(5, marcador.getNota());
             st.setString(6, marcador.getAnotacoes());
             st.setString(7, marcador.getAutores());
             st.setString(8, marcador.getCategorias());

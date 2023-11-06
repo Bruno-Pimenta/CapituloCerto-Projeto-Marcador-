@@ -12,12 +12,12 @@ public abstract class Marcador {
     private int id;
     private String nome;
     private String status;
-    private int nota;
+    private float nota;
     private String anotacoes;
     private String autores;
     private String categorias;
     
-     public Marcador(String nome, String status, int nota, String anotacoes, String autores, String categorias) {
+     public Marcador(String nome, String status, float nota, String anotacoes, String autores, String categorias) {
         this.nome = nome;
         this.status = status;
         this.nota = nota;
@@ -26,7 +26,7 @@ public abstract class Marcador {
         this.categorias = categorias;
     }
 
-    public Marcador(int id, String nome, String status, int nota, String anotacoes, String autores, String categorias) {
+    public Marcador(int id, String nome, String status, float nota, String anotacoes, String autores, String categorias) {
         this.id = id;
         this.nome = nome;
         this.status = status;
@@ -60,11 +60,11 @@ public abstract class Marcador {
         this.status = status;
     }
 
-    public int getNota() {
+    public float getNota() {
         return nota;
     }
 
-    public void setNota(int nota) {
+    public void setNota(float nota) {
         this.nota = nota;
     }
 

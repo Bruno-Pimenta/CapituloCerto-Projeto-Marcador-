@@ -12,13 +12,13 @@ public class MarcadorLivros extends Marcador{
     private int numeroDePaginas;
     private int paginaAtual;
 
-    public MarcadorLivros(int id, String nome, int numeroDePaginas, int paginaAtual, String status, int nota, String anotacoes, String autores, String categorias) {
+    public MarcadorLivros(int id, String nome, int numeroDePaginas, int paginaAtual, String status, float nota, String anotacoes, String autores, String categorias) {
         super(id, nome, status, nota, anotacoes, autores, categorias);
         this.numeroDePaginas = numeroDePaginas;
         this.paginaAtual = paginaAtual;
     }
     
-    public MarcadorLivros(String nome, int numeroDePaginas, int paginaAtual, String status, int nota, String anotacoes, String autores, String categorias) {
+    public MarcadorLivros(String nome, int numeroDePaginas, int paginaAtual, String status, float nota, String anotacoes, String autores, String categorias) {
         super(nome, status, nota, anotacoes, autores, categorias);
         this.numeroDePaginas = numeroDePaginas;
         this.paginaAtual = paginaAtual;

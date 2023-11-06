@@ -4,11 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Bruno/Documents/NetBeansProjects/MarcadorDeLivro/src/Principal/Main.java</file>
-            <file>file:/C:/Users/Bruno/Documents/NetBeansProjects/MarcadorDeLivro/src/Model/MarcadorSeries.java</file>
-            <file>file:/C:/Users/Bruno/Documents/NetBeansProjects/MarcadorDeLivro/src/Model/Marcador.java</file>
-            <file>file:/C:/Users/Bruno/Documents/NetBeansProjects/MarcadorDeLivro/src/Repository/MarcadorRepository.java</file>
+            <file>file:/C:/Users/Bruno/Documents/NetBeansProjects/MarcadorDeLivro/src/Service/MarcadorLivrosService.java</file>
             <file>file:/C:/Users/Bruno/Documents/NetBeansProjects/MarcadorDeLivro/src/BancoDeDados/Conexao.java</file>
-            <file>file:/C:/Users/Bruno/Documents/NetBeansProjects/MarcadorDeLivro/src/Service/MarcadorService.java</file>
+            <file>file:/C:/Users/Bruno/Documents/NetBeansProjects/MarcadorDeLivro/src/Repository/MarcadorLivrosRepository.java</file>
         </group>
     </open-files>
 </project-private>
