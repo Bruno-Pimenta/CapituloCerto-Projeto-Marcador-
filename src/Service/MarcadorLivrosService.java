@@ -4,6 +4,7 @@
  */
 package Service;
 
+import Autenticacao.AutenticarUsuario;
 import Model.MarcadorLivros;
 import Repository.MarcadorLivrosRepository;
 import java.sql.SQLException;
@@ -15,111 +16,168 @@ import java.util.Scanner;
  * @author Bruno
  */
 public class MarcadorLivrosService {
-    public void cadastrarMarcadorDeLivros(){
+    public static void insereMarcador(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("Insira o nome do livro");
-        String nome = sc.nextLine();
-        System.out.println("Insira o número de páginas do livro");
-        int numeroDePaginas = sc.nextInt();
-        if(numeroDePaginas<=0){
-            System.out.println("O número de páginas inserido é inválido");
-            return;
-        }
-        System.out.println("Insira a página do que está lendo (digite 0 caso ainda não iniciou a leitura)");
-        int paginaAtual = sc.nextInt();
-        if(paginaAtual<0){
-            System.out.println("O número número inserido é inválido");
-            return;
-        }
-        String status = "";
-        float nota = 0;
-        if(numeroDePaginas==paginaAtual){
-            status = "Concluído";
-            System.out.println("De 0.00 até 10, dê uma nota para o livro");
-            nota = sc.nextFloat();
-            sc.next();
-            if(nota<0.00||nota>10.0){
-                System.out.println("O Valor inserido não está dentro do intervalo definido");
-                return;
+        MarcadorLivrosRepository marcadorLivrosRepository = MarcadorLivrosRepository.pegaInstancia();
+        String nome, status, anotacoes, autores, categorias;
+        int numeroDePaginas = 0;
+        int paginaAtual = 0;
+        System.out.println("Digite o nome do livro que será marcado:");
+        nome = sc.nextLine();
+        while(numeroDePaginas<=0){
+            System.out.println("Digite o número de páginas do livro que será marcado:");
+            numeroDePaginas = sc.nextInt();
+            if(numeroDePaginas<=0){
+                System.out.println("O valor deve ser maior do que 0");
             }
         }
-        else if(paginaAtual<numeroDePaginas){
-            status = "Em progresso";
-        }
-        else{
-            status = "Leitura não iniciada";
+        
+        while(paginaAtual<=0){
+            System.out.println("Digite a página que está sendo lida do livro atualmente (digite 0 se não iniciou a leitura):");
+            paginaAtual = sc.nextInt();
+            if(paginaAtual<0){
+                System.out.println("O valor deve ser maior ou igual a 0");
+            }
         }
         
-        System.out.println("Insira alguma informação pertinente para a leitura");
+        if(paginaAtual==0){
+            status = "Leitura não iniciada.";
+        }
+        else if(paginaAtual/numeroDePaginas<1){
+            status = "Leitura em andamento";
+        }
+        else{
+            status = "Leitura concluída";
+        }
+        
+        float nota=0;
+        System.out.println("Insira uma avaliação do livro (0 a 10)");
+        nota = sc.nextFloat();
+        while(nota<=0){
+            System.out.println("Insira uma avaliação do livro (0 a 10)");
+            nota=sc.nextFloat();
+            if(nota<0||nota>10){
+                System.out.println("O valor deve ser entr 0 a 10");
+            }
+        }
+        
+               
+        System.out.println("Digite uma anotação/observação sobre a obra que seja pertinente (pode deixar vazio):");
         sc.nextLine();
-        String anotacoes = sc.nextLine();
+        anotacoes = sc.nextLine();
         
-        System.out.println("Separadas por vírgula, insira as categorias/tags do livro");
-        String categorias =sc.nextLine();
+        System.out.println("Digite os nomes dos autores (separadas por vírgula) envolvidos na obra:");
+        autores = sc.nextLine();
         
-        System.out.println("Insira o nome dos autores");
-        String autores =sc.nextLine();
-
-        MarcadorLivros marcadorLivros = new MarcadorLivros(nome, numeroDePaginas, paginaAtual, status, nota,
-        anotacoes, autores, categorias);
+        System.out.println("Digite as categorias (separadas por vírgula) inerentes a obra:");
+        categorias = sc.nextLine();
         
-        MarcadorLivrosRepository mLR = new MarcadorLivrosRepository(); 
-        mLR.insereMarcadorLivros(marcadorLivros);
-        
-
+        MarcadorLivros marcadorLivro = new MarcadorLivros(nome, numeroDePaginas,paginaAtual, status, nota, anotacoes, autores, categorias);
+        marcadorLivrosRepository.insereMarcadorLivros(marcadorLivro);
     }
     
-    public List<MarcadorLivros> buscaPorTags() throws Exception{
+    public static void buscaId() throws SQLException{
         Scanner sc = new Scanner(System.in);
-        System.out.println("Separadas por vírgula, insira as categorias/tags que o livro que você buscar");
-        String categorias = sc.nextLine();
-        sc.close();
-        MarcadorLivrosRepository mLR = new MarcadorLivrosRepository(); 
-        List<MarcadorLivros> lista = mLR.buscaPorTags(categorias);
-        return lista;
+        System.out.println("Digite o identificador do marcador que deseja ser buscado:");
+        int id = sc.nextInt();
+        MarcadorLivrosRepository marcadorLivrosRepository = MarcadorLivrosRepository.pegaInstancia();
+        MarcadorLivros marcador = marcadorLivrosRepository.buscarPorId(id);
+        System.out.println(marcador);
     }
     
-    public List<MarcadorLivros> buscarTodos() throws Exception{
-        MarcadorLivrosRepository mLR = new MarcadorLivrosRepository(); 
-        List<MarcadorLivros> lista = mLR.buscarTodos();
-        return lista;
+    public static void buscarTodos() throws SQLException{
+        MarcadorLivrosRepository marcadorLivrosRepository = MarcadorLivrosRepository.pegaInstancia();
+        List<MarcadorLivros> listaMarcadorLista = marcadorLivrosRepository.buscarTodos();
+            for(MarcadorLivros aux: listaMarcadorLista){
+                System.out.println(aux);
+            }
     }
     
-    public void excluirMarcadorLivro(int id) throws SQLException{
-        MarcadorLivrosRepository mLR = new MarcadorLivrosRepository(); 
-        mLR.excluir(id);
-    }
-    
-    public MarcadorLivros buscarPorId(int id) throws Exception{
-        MarcadorLivrosRepository mLR = new MarcadorLivrosRepository(); 
-        return mLR.buscarPorId(id);
-    }
-    
-    public void atualizarPaginaLivro() throws Exception{
-        
-        int id, paginaAtual;
-        String status;
-        
+    public static void atualizarPaginaMarcada() throws SQLException{
         Scanner sc = new Scanner(System.in);
-        System.out.println("Informe o id do livro que terá atualização na página marcada");
-        id = sc.nextInt();
-        System.out.println("Informe a página do livro que você está");
-        paginaAtual = sc.nextInt();
-        sc.close();
-        
-        MarcadorLivros marcadorLivro = buscarPorId(id);
-        if(marcadorLivro!=null && marcadorLivro.getNumeroDePaginas()>paginaAtual && paginaAtual>0){
-            MarcadorLivrosRepository mLR = new MarcadorLivrosRepository(); 
-            mLR.atualizarPagina(id, paginaAtual,"Leitura em progresso" );
+        System.out.println("Digite o identificador do marcador que deseja ter a página marcada atualizada:");
+        int idMarcador = sc.nextInt();
+        int paginaAtual = 0;
+        while(paginaAtual<=0){
+            System.out.println("Informe o número da página em que você se encontra na leitura atual:");
+            paginaAtual = sc.nextInt();
+            if(paginaAtual<=0){
+                System.out.println("Página inválida (número da página deve ser maior que 0).");
+            }
         }
-        else if(marcadorLivro!=null && marcadorLivro.getNumeroDePaginas()==paginaAtual){
-            MarcadorLivrosRepository mLR = new MarcadorLivrosRepository(); 
-            mLR.atualizarPagina(id, paginaAtual,"Concluído" );
+        MarcadorLivrosRepository marcadorLivrosRepository = MarcadorLivrosRepository.pegaInstancia();
+        marcadorLivrosRepository.atualizarPagina(idMarcador, paginaAtual);
+    }
+    
+    public static void excluirMarcador() throws SQLException{
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite o identificador do marcador que deseja ser excluído:");
+        int idMarcador = sc.nextInt();
+        MarcadorLivrosRepository marcadorLivrosRepository = MarcadorLivrosRepository.pegaInstancia();
+        marcadorLivrosRepository.excluir(idMarcador);
+    }
+    
+    public static void buscarCategoria() throws SQLException{
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite as categorias/tags do livro (separadas por vírgula):");
+        String categoria = sc.nextLine();
+        MarcadorLivrosRepository marcadorLivrosRepository = MarcadorLivrosRepository.pegaInstancia();
+        List<MarcadorLivros> listaMarcadorLista = marcadorLivrosRepository.buscaPorTags(categoria);
+            for(MarcadorLivros aux: listaMarcadorLista){
+                System.out.println(aux);
+            }
+    }
+    
+    public static void atualizarAvaliacaoObra() throws SQLException{
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite o identificador do marcador que deseja atualizar a avaliação:");
+        int idMarcador = sc.nextInt();
+        float nota = 0;
+        while(nota<=0){
+            System.out.println("Digite a sua avaliação sobre o livro (entre 0 e 10):");
+            nota = sc.nextFloat();
+            if(nota<=0){
+                System.out.println("Página inválida (número da página deve ser maior que 0).");
+            }
+        }
+        MarcadorLivrosRepository marcadorLivrosRepository = MarcadorLivrosRepository.pegaInstancia();
+        marcadorLivrosRepository.atualizarAvaliacao(idMarcador, nota);
+    }
+    
+    public static void atualizarAnotacaoObra() throws SQLException{
+        Scanner sc = new Scanner(System.in);
+        MarcadorLivrosRepository marcadorLivrosRepository = MarcadorLivrosRepository.pegaInstancia();
+        System.out.println("Digite o identificador do marcador que deseja atualizar a anotação:");
+        int idMarcador = sc.nextInt();
+        MarcadorLivros marcadorLivro = marcadorLivrosRepository.buscarPorId(idMarcador);
+        if(marcadorLivro!=null){
+            System.out.println("Anotação atual:\n"+marcadorLivro.getAnotacoes());
+            System.out.println("Faça sua nova observação referênte a obra:");
+            sc.nextLine();
+            String anotacao = sc.nextLine();
+            marcadorLivrosRepository.atualizarAnotacao(idMarcador, anotacao);
         }
         else{
-            System.out.println("Não foi possível atualizar a página");
+            System.out.println("Não foi encontrado o marcador referente ao id informado:\n");
         }
-        
+    }
+    
+    public static void buscarPorAutor() throws SQLException{
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite o nome do autor para buscar os marcadores associados a ele:");
+        String autor = sc.nextLine();
+        MarcadorLivrosRepository marcadorLivrosRepository = MarcadorLivrosRepository.pegaInstancia();
+        List<MarcadorLivros> listaMarcadorLista = marcadorLivrosRepository.buscaPorAutor(autor);
+            for(MarcadorLivros aux: listaMarcadorLista){
+                System.out.println(aux);
+            }
+        if(listaMarcadorLista.isEmpty()){
+            System.out.println("Nenhum registro encontrado.");
+        }    
+    }
+    
+    public static void logout(){
+        AutenticarUsuario.resetUserId();
     }
     
 }

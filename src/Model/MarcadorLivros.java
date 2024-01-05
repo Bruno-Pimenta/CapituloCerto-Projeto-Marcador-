@@ -42,9 +42,10 @@ public class MarcadorLivros extends Marcador{
 
     @Override
     public String toString() {
-        return "Marcador de Livro: { "+
-                "\n Id :"+super.getId()+
-                "\n Nome :"+super.getNome()+
+        return """
+               Marcador de Livro: { 
+                Id: """+super.getId()+
+                "\n Nome: "+super.getNome()+
                 "\n Número de páginas: "+getNumeroDePaginas()+
                 "\n Página atual: "+getPaginaAtual()+
                 "\n Status: "+super.getStatus()+

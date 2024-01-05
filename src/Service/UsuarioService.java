@@ -18,7 +18,7 @@ public class UsuarioService {
     public UsuarioService() {
     }
         
-    public void cadastrarUsuario(){
+    public static void cadastrarUsuario(){
         String nome, senha, confereSenha;
         int tipo;
         Scanner sc = new Scanner(System.in);
@@ -29,19 +29,11 @@ public class UsuarioService {
         System.out.println("Confirme a senha");
         confereSenha = sc.nextLine();
         if(senha.equals(confereSenha)==true){
-            System.out.println("Digite o número referente ao plano");
-            System.out.println("1 - Licença gratuita\n2 - Plano Premium: R$ 9.99");
-            tipo = sc.nextInt();
-            if(tipo>=1&&tipo<=2){
                 senha = AutenticarUsuario.retornaHash(senha);
-                Usuario usuario = new Usuario(nome, senha, tipo);
+                Usuario usuario = new Usuario(nome, senha);
                 UsuarioRepository uR = new UsuarioRepository();
                 uR.cadastrarUsuario(usuario);
             }
-            else{
-                System.out.println("Digito inválido");
-            }
-        }
         else{
             System.out.println("Senha não confere");
         }

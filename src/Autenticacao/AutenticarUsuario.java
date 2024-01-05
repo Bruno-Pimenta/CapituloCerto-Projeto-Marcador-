@@ -17,10 +17,22 @@ import java.util.Scanner;
  */
 public class AutenticarUsuario {
     
+    private static int userId = 0;
+    
     public static String retornaHash(String password) {
         String hash = BCrypt.hashpw(password, BCrypt.gensalt());
         return hash;
     }
+
+    public static int getUserId() {
+        return userId;
+    }
+
+    public static void resetUserId() {
+        AutenticarUsuario.userId = 0;
+    }
+    
+    
     
     public static void realizarLogin() throws SQLException{
         String nome, senha;
@@ -31,12 +43,13 @@ public class AutenticarUsuario {
         senha = sc.nextLine();
         int idUser = AutenticarUsuario.verificarLogin(nome, senha);
         if(idUser>0){
-            System.out.println("Seja bem vindo "+nome+"!!!");
+            userId = idUser;
+            System.out.println("Seja bem vindo(a) "+nome+"!!!");
         }
     }
     
-    public static int verificarLogin(String usuarioNome, String password) throws SQLException{
-        String sql = "Select id, nome, hash_senha from usuario where nome =?";
+    private static int verificarLogin(String usuarioNome, String password) throws SQLException{
+        String sql = "Select id, nome, senha from usuario where nome =?";
         Connection conexao = Conexao.obterConexao();
         PreparedStatement ps = conexao.prepareStatement(sql);
         ps.setString(1, usuarioNome);
@@ -45,7 +58,7 @@ public class AutenticarUsuario {
         
         try {
             while(rs.next()){
-                String hash=rs.getString("hash_senha");
+                String hash=rs.getString("senha");
                 if (BCrypt.checkpw(password, hash)) {
                     idUsuario=rs.getInt("id");
                     return idUsuario;

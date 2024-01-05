@@ -12,26 +12,21 @@ public class Usuario {
     private int id;
     private String nome;
     private String senha;
-    private int tipo;
-    private float mensalidade;
-
-    public Usuario(int id, String nome, String senha, int tipo, float mensalidade) {
+    
+    public Usuario(int id, String nome, String senha ) {
         this.id = id;
         this.nome = nome;
         this.senha = senha;
-        this.tipo = tipo;
-        this.mensalidade = mensalidade;
     }
 
-    public Usuario(String nome, String senha, int tipo) {
+    public Usuario(String nome, String senha) {
         this.nome = nome;
         this.senha = senha;
-        this.tipo = tipo;
     }
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nome=" + nome + ", senha=" + senha + ", tipo=" + tipo + ", mensalidade=" + mensalidade + '}';
+        return "Usuario{" + "id=" + id + ", nome=" + nome + ", senha=" + senha + '}';
     }
 
     public int getId() {
@@ -56,21 +51,5 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public int getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-
-    public float getMensalidade() {
-        return mensalidade;
-    }
-
-    public void setMensalidade(float mensalidade) {
-        this.mensalidade = mensalidade;
     }
 }

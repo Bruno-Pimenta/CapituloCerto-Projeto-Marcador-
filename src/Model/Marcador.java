@@ -60,7 +60,7 @@ public abstract class Marcador {
         this.status = status;
     }
 
-    public float getNota() {
+    public Float getNota() {
         return nota;
     }
 
